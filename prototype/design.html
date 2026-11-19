@@ -1,0 +1,282 @@
+<!doctype html>
+<!-- PROTOTYPE jetable : 3 variantes de design (Accueil + Partie de belote), switch via ?variant=A|B|C&screen=home|game.
+     Aucune persistance. À ne pas déployer. -->
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prototype design scores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Atkinson+Hyperlegible:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Atkinson Hyperlegible',system-ui,sans-serif;font-size:19px;background:#222;display:flex;justify-content:center}
+#app{width:100%;max-width:430px;min-height:100vh;position:relative;padding-bottom:90px}
+button{font:inherit;cursor:pointer;border:0}
+/* ---------- switcher prototype ---------- */
+#sw{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);background:#fff;color:#111;border-radius:999px;box-shadow:0 6px 24px rgba(0,0,0,.45);display:flex;align-items:center;gap:6px;padding:6px;z-index:99;font:600 14px system-ui;border:2px dashed #e11d48}
+#sw button{background:#f1f1f1;border-radius:999px;padding:8px 12px;font:600 14px system-ui}
+#sw .lbl{padding:0 6px;white-space:nowrap}
+
+/* ================= A : Tapis de jeu ================= */
+.A{background:radial-gradient(circle at 50% 20%,#1f6b45,#0f3d27 75%);color:#fdf6e3;min-height:100vh;padding:20px 16px}
+.A h1{font-family:Fraunces,serif;font-size:34px;text-align:center;margin:8px 0 4px}
+.A .sub{text-align:center;opacity:.8;margin-bottom:22px}
+.A .card{background:#fdf6e3;color:#1b1b1b;border-radius:16px;box-shadow:0 4px 0 #c9b98f,0 10px 24px rgba(0,0,0,.35);padding:18px;margin-bottom:16px}
+.A .big{display:block;width:100%;min-height:72px;border-radius:16px;font-size:24px;font-weight:700;margin-bottom:14px}
+.A .gold{background:#f2c14e;color:#3a2a00;box-shadow:0 5px 0 #b8892a}
+.A .cream{background:#fdf6e3;color:#0f3d27;box-shadow:0 5px 0 #c9b98f}
+.A .cur h2{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:#b22;margin-bottom:6px}
+.A .cur .teams{display:flex;justify-content:space-between;font-size:20px;font-weight:700;align-items:baseline}
+.A .cur .teams b{font-family:Fraunces,serif;font-size:34px}
+.A .last li{list-style:none;display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #e6dcc0;font-size:17px}
+.A .score{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.A .team{background:#fdf6e3;color:#1b1b1b;border-radius:16px;padding:12px;text-align:center;box-shadow:0 4px 0 #c9b98f}
+.A .team .n{font-size:17px;font-weight:700}
+.A .team .t{font-family:Fraunces,serif;font-size:46px;line-height:1.1}
+.A .team.lead{outline:4px solid #f2c14e}
+.A .round{text-align:center;margin:6px 0 10px;font-size:18px}
+.A .inputs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.A .inp{background:#0b2a1b;border:3px solid #fdf6e3;border-radius:14px;height:72px;font-size:38px;font-family:Fraunces,serif;color:#fdf6e3;text-align:center;line-height:66px}
+.A .inp.on{border-color:#f2c14e;background:#123d29}
+.A .pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.A .pad button{height:60px;border-radius:12px;background:#fdf6e3;color:#0f3d27;font-size:28px;font-weight:700;box-shadow:0 4px 0 #c9b98f}
+.A .pad .ok{background:#f2c14e;color:#3a2a00;box-shadow:0 4px 0 #b8892a}
+.A .hist{margin-top:16px;background:rgba(0,0,0,.2);border-radius:14px;padding:8px 14px}
+.A .hist div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+.A .back{background:none;color:#fdf6e3;font-size:18px;margin-bottom:8px}
+
+/* ================= B : Feuille de papa ================= */
+.B{background:#f6f1e4;color:#1d2340;min-height:100vh;padding:18px 16px;background-image:linear-gradient(#e4dccb 1px,transparent 1px);background-size:100% 34px}
+.B h1{font-family:Caveat,cursive;font-size:44px;color:#2b3a8c;line-height:1}
+.B .date{color:#666;margin-bottom:18px}
+.B .row{display:flex;gap:10px;margin-bottom:12px}
+.B .tile{flex:1;background:#fff;border:2px solid #1d2340;border-radius:6px;padding:16px 10px;text-align:center;font-weight:700;font-size:19px;min-height:96px;display:flex;flex-direction:column;justify-content:center;gap:6px}
+.B .tile .ic{font-size:30px}
+.B .tile.main{background:#2b3a8c;color:#fff}
+.B .sec{font-size:14px;text-transform:uppercase;letter-spacing:.1em;color:#8a5a00;margin:20px 0 6px;font-weight:700}
+.B .gl{background:#fff;border:2px solid #1d2340;border-radius:6px}
+.B .gl a{display:flex;justify-content:space-between;padding:14px;border-bottom:1px solid #d9d2c0;color:inherit;text-decoration:none}
+.B .gl a:last-child{border:0}
+.B .hand{font-family:Caveat,cursive;font-size:26px;color:#2b3a8c}
+.B table{width:100%;border-collapse:collapse;background:#fff;border:2px solid #1d2340}
+.B th{background:#cfc9e6;padding:8px 4px;font-size:16px;border:1px solid #1d2340}
+.B th small{display:block;font-weight:400;font-size:14px}
+.B td{border:1px solid #9aa0c0;height:38px;text-align:center;font-family:Caveat,cursive;font-size:28px;color:#2b3a8c}
+.B td.no{font-family:'Atkinson Hyperlegible';font-size:15px;color:#1d2340;background:#e9e6f2;width:40px;font-weight:700}
+.B td.next{background:#fff6c7;outline:3px solid #e0a400;outline-offset:-3px;color:#999;font-family:'Atkinson Hyperlegible';font-size:15px}
+.B tfoot td{background:#f6c89f;font-size:34px;font-weight:700;height:50px}
+.B .sheet{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:100%;max-width:430px;background:#fff;border-top:3px solid #1d2340;padding:14px 16px 90px;box-shadow:0 -10px 30px rgba(0,0,0,.2)}
+.B .sheet .q{font-weight:700;margin-bottom:8px}
+.B .sheet .vals{display:flex;gap:10px;margin-bottom:10px}
+.B .sheet .vals div{flex:1;border:2px solid #1d2340;border-radius:6px;padding:6px;text-align:center}
+.B .sheet .vals b{font-family:Caveat,cursive;font-size:38px;color:#2b3a8c;display:block;line-height:1}
+.B .sheet .vals .on{background:#fff6c7;border-color:#e0a400}
+.B .pad{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.B .pad button{height:52px;border:2px solid #1d2340;background:#fff;border-radius:6px;font-size:22px;font-weight:700}
+.B .pad .ok{grid-column:span 2;background:#2b3a8c;color:#fff}
+.B .back{background:none;color:#2b3a8c;font-size:18px;font-weight:700;margin-bottom:6px}
+
+/* ================= C : Une chose à la fois ================= */
+.C{background:#111318;color:#fff;min-height:calc(100vh - 90px);padding:20px 16px;display:flex;flex-direction:column}
+.C .hello{font-size:22px;opacity:.7}
+.C h1{font-size:34px;font-weight:700;margin:2px 0 20px;line-height:1.15}
+.C .resume{background:#ffcf33;color:#111;border-radius:24px;padding:22px;text-align:left;width:100%;margin-bottom:14px}
+.C .resume .k{font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.C .resume .g{font-size:30px;font-weight:700;margin:4px 0}
+.C .resume .bar{height:14px;border-radius:7px;background:#111;margin-top:10px;overflow:hidden;display:flex}
+.C .resume .bar i{display:block;height:100%}
+.C .tiles{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.C .tile{background:#23262f;color:#fff;border-radius:24px;padding:22px 16px;text-align:left;min-height:130px;display:flex;flex-direction:column;justify-content:space-between;font-size:21px;font-weight:700}
+.C .tile .ic{font-size:36px}
+.C .tile.new{background:#3ddc97;color:#06281a}
+.C .race{margin-bottom:10px}
+.C .race .l{display:flex;justify-content:space-between;font-size:18px;margin:8px 0 4px}
+.C .race .l b{font-size:24px}
+.C .race .tr{height:22px;background:#23262f;border-radius:11px;overflow:hidden}
+.C .race .tr i{display:block;height:100%;border-radius:11px}
+.C .step{font-size:16px;opacity:.7;text-transform:uppercase;letter-spacing:.08em;margin-top:18px}
+.C .ask{font-size:28px;font-weight:700;margin:4px 0 10px;line-height:1.2}
+.C .num{font-size:88px;font-weight:700;text-align:center;background:#23262f;border-radius:24px;padding:4px 0;letter-spacing:.02em}
+.C .num.empty{color:#555}
+.C .auto{text-align:center;opacity:.75;margin:8px 0}
+.C .pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:auto;padding-top:10px}
+.C .pad button{height:66px;border-radius:18px;background:#23262f;color:#fff;font-size:30px;font-weight:700}
+.C .pad .ok{background:#3ddc97;color:#06281a;font-size:22px}
+.C .back{background:none;color:#fff;font-size:18px;opacity:.7;text-align:left;margin-bottom:6px}
+.C .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.C .chips button{background:#23262f;color:#fff;border-radius:999px;padding:10px 14px;font-size:16px}
+
+/* ================= D : Feuille de papa sur tapis de jeu (B + couleurs A + raccourcis C) ================= */
+.D{background:radial-gradient(circle at 50% 10%,#1f6b45,#0f3d27 70%);color:#fdf6e3;min-height:100vh;padding:18px 16px}
+.D h1{font-family:Fraunces,serif;font-size:32px;text-align:center;margin:6px 0 2px}
+.D .sub{text-align:center;opacity:.8;margin-bottom:18px}
+.D .card{background:#fdf6e3;color:#1b1b1b;border-radius:14px;box-shadow:0 4px 0 #c9b98f,0 10px 24px rgba(0,0,0,.35);padding:14px;margin-bottom:14px}
+.D .big{display:block;width:100%;min-height:68px;border-radius:14px;font-size:23px;font-weight:700;margin-bottom:12px}
+.D .gold{background:#f2c14e;color:#3a2a00;box-shadow:0 5px 0 #b8892a}
+.D .cream{background:#fdf6e3;color:#0f3d27;box-shadow:0 5px 0 #c9b98f}
+.D .k{font-size:14px;text-transform:uppercase;letter-spacing:.08em;color:#b22;font-weight:700;margin-bottom:6px}
+.D .ink{font-family:Caveat,cursive;color:#1f3a8a}
+.D .mini{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:18px}
+.D .mini .ink{font-size:34px}
+.D .last a{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #e6dcc0;color:inherit}
+.D .last a:last-child{border:0}
+.D .last .ink{font-size:26px}
+.D .back{background:none;color:#fdf6e3;font-size:18px;margin-bottom:8px}
+.D table{width:100%;border-collapse:collapse;background:#fdf6e3;border-radius:14px;overflow:hidden;box-shadow:0 4px 0 #c9b98f}
+.D th{background:#e8dfc4;color:#0f3d27;padding:8px 4px;font-size:16px;border-bottom:2px solid #0f3d27}
+.D th.lead{background:#f2c14e}
+.D td{border-bottom:1px solid #e6dcc0;height:34px;text-align:center;font-family:Caveat,cursive;font-size:27px;color:#1f3a8a}
+.D td.no{font-family:'Atkinson Hyperlegible';font-size:14px;color:#0f3d27;background:#efe6cc;width:36px;font-weight:700}
+.D tr.next td{background:#fff3c4;color:#8a6a00;font-family:'Atkinson Hyperlegible';font-size:15px}
+.D tr.next td.no{background:#f2c14e}
+.D tfoot td{background:#0f3d27;color:#f2c14e;font-family:Fraunces,serif;font-size:32px;height:52px;border:0}
+.D tfoot td.no{background:#0f3d27}
+.D .sheet{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:100%;max-width:430px;background:#fdf6e3;color:#1b1b1b;border-radius:20px 20px 0 0;padding:12px 14px 86px;box-shadow:0 -10px 30px rgba(0,0,0,.4)}
+.D .vals{display:flex;gap:10px;margin-bottom:8px}
+.D .vals div{flex:1;border:3px solid #c9b98f;border-radius:12px;padding:4px 6px;text-align:center;font-size:14px;font-weight:700;color:#0f3d27}
+.D .vals b{font-family:Caveat,cursive;font-size:40px;color:#1f3a8a;display:block;line-height:1}
+.D .vals .on{border-color:#f2c14e;background:#fff3c4}
+.D .chips{display:flex;gap:8px;margin-bottom:8px}
+.D .chips button{flex:1;background:#0f3d27;color:#fdf6e3;border-radius:999px;padding:9px 4px;font-size:15px;font-weight:700}
+.D .pad{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.D .pad button{height:50px;border-radius:10px;background:#fff;border:2px solid #c9b98f;color:#0f3d27;font-size:24px;font-weight:700}
+.D .pad .ok{grid-row:span 2;height:auto;background:#f2c14e;border-color:#b8892a;color:#3a2a00;font-size:20px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="sw"><button id="prev">◀</button><span class="lbl" id="lbl"></span><button id="next">▶</button><button id="scr"></button></div>
+<script>
+const VARIANTS={A:'Tapis de jeu',B:'Feuille de papa',C:'Une chose à la fois',D:'Combo : feuille sur tapis'};
+const keys=Object.keys(VARIANTS);
+const qs=new URLSearchParams(location.search);
+let v=keys.includes(qs.get('variant'))?qs.get('variant'):'D';
+let screen=qs.get('screen')==='game'?'game':'home';
+// Données : 3e partie de la feuille de papa, 7 manches jouées
+const T1='Alain & Philippe',T2='Lili & Marie-France';
+let rounds=[[66,96],[0,162],[141,21],[55,127],[169,13],[124,38],[40,142]];
+let cur=['',''],focus=0;
+const tot=i=>rounds.reduce((s,r)=>s+r[i],0);
+
+function key(k){
+  if(k==='ok'){ if(cur[0]===''&&cur[1]==='')return; rounds.push([+cur[0]||0,+cur[1]||0]); cur=['',''];focus=0; return render();}
+  if(k==='del'){cur[focus]=cur[focus].slice(0,-1);}
+  else if(cur[focus].length<3){cur[focus]+=k;}
+  const o=1-focus; const n=+cur[focus];
+  if(cur[focus]!==''&&n<=162) cur[o]=String(162-n); else if(cur[focus]==='') cur[o]='';
+  render();
+}
+const go=s=>{screen=s;sync();render();};
+function sync(){qs.set('variant',v);qs.set('screen',screen);history.replaceState(null,'','?'+qs);}
+
+const last=`<li><span>Belote · Alain & Philippe</span><b>1073–1061</b></li><li><span>Belote · Lili & Marie-France</span><b>1336–628</b></li><li><span>Skull King · Thomas</span><b>412</b></li>`;
+
+function A(){
+  if(screen==='home') return `<div class="A">
+    <h1>♠ Les scores ♥</h1><div class="sub">de la famille</div>
+    <div class="card cur" onclick="go('game')"><h2>● Partie en cours · Belote · manche ${rounds.length+1}/12</h2>
+      <div class="teams"><span>Alain & Philippe</span><b>${tot(0)}</b></div>
+      <div class="teams"><span>Lili & Marie-France</span><b>${tot(1)}</b></div></div>
+    <button class="big gold" onclick="go('game')">▶ Reprendre la partie</button>
+    <button class="big cream">＋ Nouvelle partie</button>
+    <button class="big cream">🏆 Les stats</button>
+    <div class="card last"><ul>${last}</ul></div></div>`;
+  const lead=tot(0)>=tot(1)?0:1;
+  return `<div class="A"><button class="back" onclick="go('home')">← Accueil</button>
+    <div class="score">${[T1,T2].map((t,i)=>`<div class="team ${i===lead?'lead':''}"><div class="n">${t}</div><div class="t">${tot(i)}</div></div>`).join('')}</div>
+    <div class="round">Manche <b>${rounds.length+1}</b> sur 12</div>
+    <div class="inputs">${[0,1].map(i=>`<div class="inp ${focus===i?'on':''}" onclick="focus=${i};render()">${cur[i]||'–'}</div>`).join('')}</div>
+    <div class="pad">${[1,2,3,4,5,6,7,8,9].map(n=>`<button onclick="key('${n}')">${n}</button>`).join('')}<button onclick="key('del')">⌫</button><button onclick="key('0')">0</button><button class="ok" onclick="key('ok')">✓</button></div>
+    <div class="hist">${rounds.map((r,i)=>`<div><span>${i+1}.</span><span>${r[0]}</span><span>${r[1]}</span></div>`).reverse().join('')}</div></div>`;
+}
+
+function B(){
+  if(screen==='home') return `<div class="B"><h1>Les scores de la famille</h1><div class="date">jeudi 24 décembre</div>
+    <div class="row"><button class="tile main" onclick="go('game')"><span class="ic">✍️</span>Reprendre la belote<span class="hand" style="color:#fff">${tot(0)} – ${tot(1)}</span></button></div>
+    <div class="row"><button class="tile"><span class="ic">🃏</span>Nouvelle partie</button><button class="tile"><span class="ic">🏆</span>Les stats</button></div>
+    <div class="sec">Dernières parties</div>
+    <div class="gl"><a><span>Belote<br><small>Alain & Philippe</small></span><span class="hand">1073 – 1061</span></a><a><span>Belote<br><small>Lili & Marie-France</small></span><span class="hand">1336 – 628</span></a><a><span>Skull King<br><small>Thomas</small></span><span class="hand">412</span></a></div></div>`;
+  const rows=[];for(let i=0;i<12;i++){const r=rounds[i];
+    if(r) rows.push(`<tr><td>${r[0]||'—'}</td><td class="no">${i+1}</td><td>${r[1]||'—'}</td></tr>`);
+    else if(i===rounds.length) rows.push(`<tr><td class="next">${cur[0]||'touchez'}</td><td class="no">${i+1}</td><td class="next">${cur[1]||'touchez'}</td></tr>`);
+    else rows.push(`<tr><td></td><td class="no">${i+1}</td><td></td></tr>`);}
+  return `<div class="B"><button class="back" onclick="go('home')">← Accueil</button>
+    <table><thead><tr><th>Eux<small>Alain · Philippe</small></th><th></th><th>Nous<small>Lili · Marie-France</small></th></tr></thead>
+    <tbody>${rows.join('')}</tbody><tfoot><tr><td>${tot(0)}</td><td class="no"></td><td>${tot(1)}</td></tr></tfoot></table>
+    <div style="height:240px"></div>
+    <div class="sheet"><div class="q">Manche ${rounds.length+1}</div>
+      <div class="vals">${[0,1].map(i=>`<div class="${focus===i?'on':''}" onclick="focus=${i};render()">${i?'Nous':'Eux'}<b>${cur[i]||'·'}</b></div>`).join('')}</div>
+      <div class="pad">${[1,2,3,4,5,6,7,8,9,0].map(n=>`<button onclick="key('${n}')">${n}</button>`).join('')}<button onclick="key('del')">⌫</button><button class="ok" onclick="key('ok')">Noter</button></div></div></div>`;
+}
+
+function C(){
+  const a=tot(0),b=tot(1),m=Math.max(a,b,1);
+  if(screen==='home') return `<div class="C"><div class="hello">Bonsoir 👋</div><h1>On joue à quoi ?</h1>
+    <button class="resume" onclick="go('game')"><div class="k">● En cours · manche ${rounds.length+1}/12</div><div class="g">Belote</div>
+      <div>Alain & Philippe <b>${a}</b> · Lili & Marie-France <b>${b}</b></div>
+      <div class="bar"><i style="width:${a/(a+b)*100}%;background:#3d7bff"></i><i style="width:${b/(a+b)*100}%;background:#ff5c8a"></i></div></button>
+    <div class="tiles"><button class="tile new"><span class="ic">＋</span>Nouvelle partie</button><button class="tile"><span class="ic">🏆</span>Stats</button>
+      <button class="tile"><span class="ic">🃏</span>Historique</button><button class="tile"><span class="ic">👤</span>Joueurs</button></div></div>`;
+  const who=focus===0?T1:T2;
+  return `<div class="C"><button class="back" onclick="go('home')">← Accueil</button>
+    <div class="race"><div class="l"><span>Alain & Philippe</span><b>${a}</b></div><div class="tr"><i style="width:${a/m*100}%;background:#3d7bff"></i></div>
+    <div class="l"><span>Lili & Marie-France</span><b>${b}</b></div><div class="tr"><i style="width:${b/m*100}%;background:#ff5c8a"></i></div></div>
+    <div class="step">Manche ${rounds.length+1} sur 12</div>
+    <div class="ask">Combien pour <span style="color:${focus?'#ff5c8a':'#3d7bff'}">${who}</span> ?</div>
+    <div class="num ${cur[focus]?'':'empty'}">${cur[focus]||'0'}</div>
+    <div class="auto">${cur[focus]?`donc ${focus?T1:T2} : <b>${cur[1-focus]}</b> · <a style="color:#ffcf33" onclick="focus=${1-focus};render()">corriger</a>`:'L’autre équipe se calcule toute seule'}</div>
+    <div class="chips"><button onclick="cur[focus]=String((+cur[focus]||0)+20);render()">+20 belote</button><button onclick="cur=focus?['0','252']:['252','0'];render()">Capot</button><button onclick="cur=focus?['162','0']:['0','162'];render()">Dedans</button></div>
+    <div class="pad">${[1,2,3,4,5,6,7,8,9].map(n=>`<button onclick="key('${n}')">${n}</button>`).join('')}<button onclick="key('del')">⌫</button><button onclick="key('0')">0</button><button class="ok" onclick="key('ok')">Valider</button></div></div>`;
+}
+
+
+function chip(t){const f=focus,o=1-focus;
+  if(t==='belote'){cur[f]=String((+cur[f]||0)+20);if(cur[o]==='')cur[o]='0';}
+  if(t==='capot'){cur[f]='252';cur[o]='0';}
+  if(t==='dedans'){cur[f]='0';cur[o]='162';}
+  render();}
+function D(){
+  const a=tot(0),b=tot(1);
+  if(screen==='home') return `<div class="D"><h1>♠ Les scores ♥</h1><div class="sub">de la famille</div>
+    <div class="card" onclick="go('game')"><div class="k">● En cours · Belote · manche ${rounds.length+1}/12</div>
+      <div class="mini"><span>Alain & Philippe</span><span class="ink">${a}</span></div>
+      <div class="mini"><span>Lili & Marie-France</span><span class="ink">${b}</span></div></div>
+    <button class="big gold" onclick="go('game')">▶ Reprendre la partie</button>
+    <button class="big cream">＋ Nouvelle partie</button>
+    <button class="big cream">🏆 Les stats</button>
+    <div class="card last"><div class="k" style="color:#0f3d27">Dernières parties</div>
+      <a><span>Belote · 14/11<br><small>Alain & Philippe</small></span><span class="ink">1073 – 1061</span></a>
+      <a><span>Belote · 14/11<br><small>Lili & Marie-France</small></span><span class="ink">1336 – 628</span></a>
+      <a><span>Belote · 14/11<br><small>Lili & Marie-France</small></span><span class="ink">1084 – 1010</span></a></div></div>`;
+  const rows=[];for(let i=0;i<12;i++){const r=rounds[i];
+    if(r) rows.push(`<tr><td>${r[0]||'—'}</td><td class="no">${i+1}</td><td>${r[1]||'—'}</td></tr>`);
+    else if(i===rounds.length) rows.push(`<tr class="next"><td>${cur[0]||'?'}</td><td class="no">${i+1}</td><td>${cur[1]||'?'}</td></tr>`);
+    else rows.push(`<tr><td></td><td class="no">${i+1}</td><td></td></tr>`);}
+  const l=a>=b?0:1;
+  return `<div class="D"><button class="back" onclick="go('home')">← Accueil</button>
+    <table><thead><tr><th class="${l===0?'lead':''}">Alain · Philippe<div style="font-family:Fraunces,serif;font-size:30px">${a}</div></th><th></th><th class="${l===1?'lead':''}">Lili · Marie-France<div style="font-family:Fraunces,serif;font-size:30px">${b}</div></th></tr></thead>
+    <tbody>${rows.join('')}</tbody><tfoot><tr><td>${a}</td><td class="no"></td><td>${b}</td></tr></tfoot></table>
+    <div style="height:300px"></div>
+    <div class="sheet">
+      <div class="vals">${[0,1].map(i=>`<div class="${focus===i?'on':''}" onclick="focus=${i};render()">${i?'Lili & M-France':'Alain & Philippe'}<b>${cur[i]||'·'}</b></div>`).join('')}</div>
+      <div class="chips"><button onclick="chip('belote')">+20 belote</button><button onclick="chip('capot')">Capot</button><button onclick="chip('dedans')">Dedans</button></div>
+      <div class="pad">${[1,2,3].map(n=>`<button onclick="key('${n}')">${n}</button>`).join('')}<button onclick="key('del')">⌫</button>${[4,5,6].map(n=>`<button onclick="key('${n}')">${n}</button>`).join('')}<button class="ok" onclick="key('ok')">Noter la manche ${rounds.length+1}</button>${[7,8,9].map(n=>`<button onclick="key('${n}')">${n}</button>`).join('')}<button style="grid-column:1/4" onclick="key('0')">0</button></div>
+    </div></div>`;
+}
+
+function render(){
+  document.getElementById('app').innerHTML={A,B,C,D}[v]();
+  document.getElementById('lbl').textContent=`${v} · ${VARIANTS[v]}`;
+  document.getElementById('scr').textContent=screen==='home'?'→ écran Partie':'→ écran Accueil';
+}
+const cycle=d=>{v=keys[(keys.indexOf(v)+d+keys.length)%keys.length];sync();render();};
+document.getElementById('prev').onclick=()=>cycle(-1);
+document.getElementById('next').onclick=()=>cycle(1);
+document.getElementById('scr').onclick=()=>go(screen==='home'?'game':'home');
+addEventListener('keydown',e=>{if(e.key==='ArrowLeft')cycle(-1);if(e.key==='ArrowRight')cycle(1);});
+sync();render();
+</script>
+</body>
+</html>
