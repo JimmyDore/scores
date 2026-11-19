@@ -166,7 +166,18 @@
 	<div class="top">
 		<a class="back" href="/">← Accueil</a>
 		<span class="meta">{game.emoji} {game.name} · {numericDate(m.createdAt)}</span>
+		{#if data.canWrite && !confirmDelete}
+			<button type="button" class="trash" onclick={() => (confirmDelete = true)}>🗑 Supprimer</button>
+		{/if}
 	</div>
+
+	{#if data.canWrite && confirmDelete}
+		<form method="POST" action="?/deleteMatch" use:enhance class="card confirm">
+			<p>Supprimer cette partie pour de bon ?</p>
+			<button class="btn btn-gold" type="submit">Oui, supprimer la partie</button>
+			<button class="btn btn-cream" type="button" onclick={() => (confirmDelete = false)}>Non, la garder</button>
+		</form>
+	{/if}
 
 	<table class="sheet-grid" class:many={sideCount > 4}>
 		<thead>
@@ -208,19 +219,6 @@
 		<p class="tip">Une erreur ? Touchez la ligne pour la corriger.</p>
 	{/if}
 
-	{#if data.canWrite}
-		<div class="danger">
-			{#if !confirmDelete}
-				<button type="button" class="btn btn-ghost" onclick={() => (confirmDelete = true)}>🗑 Supprimer cette partie</button>
-			{:else}
-				<form method="POST" action="?/deleteMatch" use:enhance class="confirm">
-					<p>Supprimer cette partie pour de bon ?</p>
-					<button class="btn btn-gold" type="submit">Oui, supprimer</button>
-					<button class="btn btn-ghost" type="button" onclick={() => (confirmDelete = false)}>Non, la garder</button>
-				</form>
-			{/if}
-		</div>
-	{/if}
 </div>
 
 <div class="drawer" bind:clientHeight={sheetH}>
@@ -244,6 +242,11 @@
 					<button class="link danger-link" type="submit">Supprimer</button>
 				</form>
 				<button class="link" type="button" onclick={() => (editN = null)}>Annuler</button>
+			{:else if m.pendingRound !== null}
+				<form method="POST" action="?/deleteRound" use:enhance={afterSave} class="inline">
+					<input type="hidden" name="n" value={m.pendingRound} />
+					<button class="link" type="submit">↺ Refaire les annonces</button>
+				</form>
 			{/if}
 		</div>
 
@@ -367,6 +370,7 @@
 		margin-bottom: 6px;
 	}
 	.meta {
+		flex: 1;
 		font-size: 15px;
 		opacity: 0.85;
 		text-align: right;
@@ -456,12 +460,24 @@
 		font-size: 15px;
 		opacity: 0.8;
 	}
-	.danger {
-		margin-top: 28px;
+	.trash {
+		background: rgba(0, 0, 0, 0.25);
+		color: var(--cream);
+		border: 2px solid rgba(253, 246, 227, 0.4);
+		border-radius: 999px;
+		min-height: 44px;
+		padding: 0 12px;
+		font-size: 15px;
+		font-weight: 700;
+		white-space: nowrap;
 	}
 	.confirm p {
 		text-align: center;
 		font-weight: 700;
+		margin-top: 4px;
+	}
+	.confirm .btn:last-child {
+		margin-bottom: 0;
 	}
 
 	.drawer {
@@ -471,7 +487,8 @@
 		transform: translateX(-50%);
 		width: 100%;
 		max-width: 480px;
-		max-height: 75vh;
+		max-height: 60vh;
+		overscroll-behavior: contain;
 		overflow-y: auto;
 		background: var(--cream);
 		color: var(--text);
