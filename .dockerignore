@@ -1,0 +1,23 @@
+node_modules
+build
+dist
+.svelte-kit
+.git
+.github
+.claude
+*.log
+.DS_Store
+.env
+.env.*
+!.env.example
+data/
+*.db
+*.db-wal
+*.db-shm
+coverage/
+test-results/
+playwright-report/
+# Les Dockerfiles sont lus hors du contexte.
+deploy/
+# Le prototype de design n'a rien à faire dans l'image.
+prototype/

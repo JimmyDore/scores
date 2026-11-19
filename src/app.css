@@ -1,0 +1,191 @@
+/* Thème « feuille de papa sur tapis de jeu » (variante D du prototype). */
+:root {
+	--felt: #0f3d27;
+	--felt-hi: #1f6b45;
+	--felt-deep: #0b2a1b;
+	--cream: #fdf6e3;
+	--cream-2: #efe6cc;
+	--cream-line: #e6dcc0;
+	--cream-edge: #c9b98f;
+	--gold: #f2c14e;
+	--gold-soft: #fff3c4;
+	--gold-edge: #b8892a;
+	--gold-ink: #3a2a00;
+	--ink: #1f3a8a;
+	--red: #b22222;
+	--text: #1b1b1b;
+	--hand: 'Caveat', cursive;
+	--title: 'Fraunces', Georgia, serif;
+	--body: 'Atkinson Hyperlegible', system-ui, sans-serif;
+	color-scheme: light;
+}
+
+* {
+	box-sizing: border-box;
+}
+html,
+body {
+	margin: 0;
+	min-height: 100%;
+}
+body {
+	font-family: var(--body);
+	font-size: 19px;
+	line-height: 1.35;
+	color: var(--cream);
+	background: var(--felt) radial-gradient(circle at 50% 0%, var(--felt-hi), var(--felt) 70%) fixed;
+	-webkit-tap-highlight-color: transparent;
+}
+button,
+input,
+select {
+	font: inherit;
+}
+button {
+	cursor: pointer;
+	border: 0;
+	touch-action: manipulation;
+}
+a {
+	color: inherit;
+}
+h1,
+h2,
+h3 {
+	margin: 0;
+}
+
+.page {
+	max-width: 480px;
+	margin: 0 auto;
+	padding: 16px 16px 32px;
+}
+
+.title {
+	font-family: var(--title);
+	font-weight: 800;
+	font-size: 32px;
+	text-align: center;
+	margin-top: 6px;
+}
+.subtitle {
+	text-align: center;
+	opacity: 0.8;
+	margin: 2px 0 18px;
+}
+
+.card {
+	background: var(--cream);
+	color: var(--text);
+	border-radius: 14px;
+	box-shadow:
+		0 4px 0 var(--cream-edge),
+		0 10px 24px rgba(0, 0, 0, 0.35);
+	padding: 14px;
+	margin-bottom: 14px;
+}
+.card-link {
+	display: block;
+	text-decoration: none;
+}
+
+.kicker {
+	font-size: 14px;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	font-weight: 700;
+	color: var(--red);
+	margin-bottom: 6px;
+}
+.kicker.green {
+	color: var(--felt);
+}
+
+.ink {
+	font-family: var(--hand);
+	color: var(--ink);
+}
+
+.btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	width: 100%;
+	min-height: 64px;
+	border-radius: 14px;
+	font-size: 22px;
+	font-weight: 700;
+	margin-bottom: 12px;
+	text-decoration: none;
+	text-align: center;
+	padding: 8px 14px;
+}
+.btn-gold {
+	background: var(--gold);
+	color: var(--gold-ink);
+	box-shadow: 0 5px 0 var(--gold-edge);
+}
+.btn-cream {
+	background: var(--cream);
+	color: var(--felt);
+	box-shadow: 0 5px 0 var(--cream-edge);
+}
+.btn-ghost {
+	background: transparent;
+	color: var(--cream);
+	border: 2px solid rgba(253, 246, 227, 0.5);
+	min-height: 56px;
+	font-size: 19px;
+}
+.btn:active {
+	transform: translateY(3px);
+	box-shadow: none;
+}
+.btn[disabled] {
+	opacity: 0.45;
+	pointer-events: none;
+}
+
+.back {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	min-height: 44px;
+	color: var(--cream);
+	text-decoration: none;
+	font-size: 18px;
+}
+
+.error {
+	background: #ffe1dc;
+	color: #7a1010;
+	border-radius: 10px;
+	padding: 10px 12px;
+	margin: 8px 0;
+	font-weight: 700;
+}
+
+.field {
+	width: 100%;
+	min-height: 56px;
+	border-radius: 12px;
+	border: 3px solid var(--cream-edge);
+	background: #fff;
+	padding: 8px 14px;
+	font-size: 22px;
+	color: var(--text);
+}
+.field:focus {
+	outline: none;
+	border-color: var(--gold);
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
